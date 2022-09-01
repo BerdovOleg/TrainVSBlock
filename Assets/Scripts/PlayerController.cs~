@@ -1,0 +1,97 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using TMPro;
+using UnityEditor.UIElements;
+
+public class PlayerController : MonoBehaviour
+{
+    [SerializeField]private TextMeshProUGUI StartText;
+    [SerializeField]private TextMeshProUGUI CurentText;
+    [SerializeField]private TextMeshProUGUI TimerTest;
+    [SerializeField] private GameObject camera;
+    
+    private Vector3 startV3;
+    private float speed = 3f;
+    private float LeftBoard = -5.5f;
+    private float RightBoard = 5.5f;
+
+    private float coldawn = 0.9f;
+    private float timer;
+
+    private Vector3 Forward;
+    // Start is called before the first frame update
+    void Start()
+    {
+        Forward = Vector3.forward;
+
+        var blocks = GetComponentsInChildren<Sector>();
+    }
+    
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.TryGetComponent(out Enemy _enemy))
+        {
+            Debug.Log("IsEnemy");
+            Forward = Vector3.zero;
+        }
+        Debug.Log("Messages");
+    }
+
+    void OnCollisionExit(Collision collision)
+    {
+        Forward = Vector3.forward;
+    }
+
+    public void EnterBox()
+    {
+        Debug.Log(-1);
+        Forward = Vector3.zero;
+    }
+    
+    public void ExitBox()
+    {
+        Forward = Vector3.forward;
+    }
+
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetMouseButton(0))
+        {
+            
+            Vector3 mousePos = Input.mousePosition;
+
+            StartText.text = "   Start: " + startV3.normalized;
+            CurentText.text = "Current: " + mousePos.normalized;
+
+                if (startV3.normalized.x > mousePos.normalized.x & transform.position.x > LeftBoard & timer<=coldawn)
+                {
+                    transform.position =
+                        new Vector3(transform.position.x - 0.5f, transform.position.y, transform.position.z);
+                    timer = 1f;
+                }
+                else if (startV3.normalized.x < mousePos.normalized.x & transform.position.x < RightBoard & timer<=coldawn)
+                {
+                    transform.position =
+                        new Vector3(transform.position.x + 0.5f, transform.position.y, transform.position.z);
+                    timer = 1f;
+                }
+                else
+                {
+                    timer -= Time.deltaTime;
+                }
+        }
+        else
+        {
+            startV3 = Input.mousePosition;
+            timer = 0;
+        }
+
+        TimerTest.text = timer.ToString();
+        transform.Translate(Forward * speed * Time.deltaTime);
+        camera.transform.position =
+            new Vector3(camera.transform.position.x, camera.transform.position.y, transform.position.z);
+    }
+}
