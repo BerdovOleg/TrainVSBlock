@@ -11,6 +11,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField]private TextMeshProUGUI CurentText;
     [SerializeField]private TextMeshProUGUI TimerTest;
     [SerializeField] private GameObject camera;
+    [SerializeField] private GameObject sectors;
+    GameObject[] prefubs;
+    public int SectorCount;
     
     private Vector3 startV3;
     private float speed = 3f;
@@ -20,21 +23,18 @@ public class PlayerController : MonoBehaviour
     private float coldawn = 0.9f;
     private float timer;
 
-    Sector[] blocks;
 
     private Vector3 Forward;
     // Start is called before the first frame update
     void Start()
     {
+        prefubs = new GameObject[SectorCount];
         Forward = Vector3.forward;
-
-        blocks = GetComponentsInChildren<Sector>();
         int nubbers = -1;
-        foreach (var item in blocks)
+        for (int i = 0; i < prefubs.Length; i++)
         {
-            var V3 = item.gameObject.transform.position;
-            item.gameObject.transform.position = new Vector3(V3.x, V3.y, nubbers);
-
+            var V3 = transform.position;
+            prefubs[i] = Instantiate(sectors, new Vector3(V3.x, V3.y, nubbers), Quaternion.identity);
             nubbers--;
         }
     }
@@ -43,10 +43,8 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.TryGetComponent(out Enemy _enemy))
         {
-            Debug.Log("IsEnemy");
             Forward = Vector3.zero;
         }
-        Debug.Log("Messages");
     }
 
     void OnCollisionExit(Collision collision)
@@ -80,13 +78,14 @@ public class PlayerController : MonoBehaviour
                 transform.position =
                     new Vector3(transform.position.x - 0.5f, transform.position.y, transform.position.z);
                 timer = 1f;
-                SectorLeft();
+                SectorLeft(true);
             }
             else if (startV3.normalized.x < mousePos.normalized.x & transform.position.x < RightBoard & timer <= coldawn)
             {
                 transform.position =
                     new Vector3(transform.position.x + 0.5f, transform.position.y, transform.position.z);
                 timer = 1f;
+                SectorLeft(false);
             }
             else
             {
@@ -103,20 +102,35 @@ public class PlayerController : MonoBehaviour
         TimerTest.text = timer.ToString();
     }
 
-    private void SectorLeft()
+    private void SectorLeft(bool left)
     {
+        int i = prefubs.Length;
+        int cur = 0;
         float localTimer = 1;
-
-        if (localTimer<=coldawn)
-        {
-            foreach (var item in blocks)
-            {
-                item.transform.position =
-                         new Vector3(item.transform.position.x - 0.5f, item.transform.position.y, item.transform.position.z);
-                localTimer = 1f;
-            }
-        }
-        localTimer -= Time.deltaTime;
+        return;
+        //while (cur<i)
+        //{
+        //    return;
+        //    if(0,01f <= 0.1f)
+        //    {
+        //        if (left)
+        //        {
+        //            Debug.Log("перемещение в лево " +cur);
+        //            prefubs[cur].transform.position =
+        //                new Vector3(prefubs[cur].transform.position.x - 0.5f, prefubs[cur].transform.position.y, prefubs[cur].transform.position.z);
+        //            localTimer = 1f;
+        //            cur++;
+        //        }
+        //        else
+        //        {
+        //            prefubs[cur].transform.position =
+        //                     new Vector3(prefubs[cur].transform.position.x + 0.5f, prefubs[cur].transform.position.y, prefubs[cur].transform.position.z);
+        //            localTimer = 1f;
+        //            cur++;
+        //        }
+        //    }
+        //    localTimer -= Time.deltaTime;
+        //}
     }
 
     private void MoveForward()
@@ -124,5 +138,9 @@ public class PlayerController : MonoBehaviour
         transform.Translate(Forward * speed * Time.deltaTime);
         camera.transform.position =
             new Vector3(camera.transform.position.x, camera.transform.position.y, transform.position.z);
+        foreach (var item in prefubs)
+        {
+            item.transform.Translate(Forward * speed * Time.deltaTime);
+        }
     }
 }
