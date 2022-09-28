@@ -10,10 +10,15 @@ public class Enemy : MonoBehaviour
     bool SnakeEnter = false;
     float delay = .9f;
     float timer = .9f;
+    public int minValue;
+    public int maxValue;
+    SnakeController Snake;
 
     private void Awake()
     {
-        value = Random.Range(1, 20);
+        minValue = 1;
+        maxValue = 4;//Временно
+        value = Random.Range(minValue, maxValue);
     }
 
     private void Start()
@@ -32,6 +37,7 @@ public class Enemy : MonoBehaviour
     {
         if (collision.gameObject.TryGetComponent<SnakeController>(out SnakeController snake))
         {
+            Snake = snake;
             SnakeEnter = true;
         }
     }
@@ -50,12 +56,14 @@ public class Enemy : MonoBehaviour
         {
             timer = 1f;
             value--;
+            Snake.Enter();
             text.text = value.ToString();
             if (value < 1)
             {
                 Debug.Log(value);
                 Destroy(gameObject);
                 SnakeEnter = false;
+                Snake.Exit();
             }
         }
         timer -= Time.deltaTime;

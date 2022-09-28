@@ -36,11 +36,14 @@ public class SnakeTail : MonoBehaviour
         }
     }
 
-    public void AddTail()
+    public void AddTail(int value)
     {
-        Transform Sphere = Instantiate(SnakeHead, positions[positions.Count - 1], Quaternion.identity, transform);
-        Tail.Add(Sphere);
-        positions.Add(Sphere.position);
+        for (int i = 0; i < value; i++)
+        {
+            Transform Sphere = Instantiate(SnakeHead, positions[positions.Count - 1], Quaternion.identity, transform);
+            Tail.Add(Sphere);
+            positions.Add(Sphere.position);
+        }
     }
 
     public void RemoveTail()

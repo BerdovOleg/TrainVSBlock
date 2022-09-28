@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -20,8 +21,14 @@ public class SnakeController : MonoBehaviour
     void Start()
     {
         text = GetComponentInChildren<TextMeshProUGUI>();
-        text.text = Length.ToString();
-        for (int i = 0; i < Length; i++) _SnakeTail.AddTail();
+        SetText(Length);
+        _SnakeTail.AddTail(Length);
+    }
+
+    private void SetText(int i)
+    {
+        i ++;
+        text.text =  i.ToString();
     }
 
     // Update is called once per frame
@@ -32,14 +39,14 @@ public class SnakeController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.A))
         {
             Length++;
-            _SnakeTail.AddTail();
-            text.text = (Length.ToString());
+            _SnakeTail.AddTail(1);
+            SetText(Length);
         }
         if (Input.GetKeyDown(KeyCode.D))
         {
             Length--;
             _SnakeTail.RemoveTail();
-            text.text = (Length.ToString());
+            SetText(Length);
         }
 
     }
@@ -70,44 +77,43 @@ public class SnakeController : MonoBehaviour
         sidewaysSpeed = 0;
      }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
-        {
-            Enter();
-        }
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-            Exit();
-    }
-
+   
     private void OnCollisionStay(Collision collision)
     {
-        
+        Vector3 normal = collision.contacts[0].normal.normalized;
+        float dot = Vector3.Dot(normal, Vector3.down);
+
+        if (dot < 0.5) Debug.Log(dot);
     }
 
     public void Enter()
     {
         SnakeSpeed = 0;
-        if (timer <= delay)
+        Length--;
+        SetText(Length);
+        _SnakeTail.RemoveTail();
+        Debug.Log("RemoveTail");
+        if (Length < 1)
         {
-            timer = 1f;
-            Length--;
-            text.text = Length.ToString();
-            _SnakeTail.RemoveTail();
-            if (Length < 1)
-            {
-                Debug.Log(Length);
-            }
+            GameOver();
         }
-        timer -= Time.deltaTime;
-        SnakeSpeed = 10;
+
+    }
+
+    private void GameOver()
+    {
+        Debug.Log(Length);
     }
 
     public void Exit()
     {
-        SnakeSpeed = 10;
+        SnakeSpeed = 5;
+    }
+
+    public void EatFood(int value)
+    {
+        Length += value;
+        _SnakeTail.AddTail(value);
+        SetText(Length);
     }
 }
