@@ -364,3 +364,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edae12d43adb52845adaa9e6fe398bbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minValue: 0
+  maxValue: 0
+  shader: {fileID: 0}
+  material: {fileID: 0}

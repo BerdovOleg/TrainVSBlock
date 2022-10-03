@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/SnakeVSBlock.unity
+    guid: dc50e7933d68df8418ddd4b280bf35bb
   m_configObjects: {}

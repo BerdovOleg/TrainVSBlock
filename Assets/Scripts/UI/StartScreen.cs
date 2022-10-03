@@ -5,26 +5,28 @@ using UnityEngine;
 
 public class StartScreen : MonoBehaviour
 {
-    [SerializeField] private GameObject startScreed;
+    [SerializeField] private GameObject startScreen;
     [SerializeField] private TextMeshProUGUI LevelText;
-    [SerializeField] private TextMeshProUGUI BestFoodText;
+    [SerializeField] private TextMeshProUGUI BestBlockText;
+    public bool toStart;
    
     
     // Start is called before the first frame update
-    void ShowStartScreen(int Level, int bestFood)
+    public void ShowStartScreen(int Level, int BestBlock)
     {
         LevelText.text = "Level " + Level;
-        BestFoodText.text = "" + bestFood;
+        BestBlockText.text = "" + BestBlock;
+        startScreen.SetActive(true);
     }
 
     public void HideStartScreen()
     {
-        startScreed.SetActive(false);
+        startScreen.SetActive(false);
     }
 
     public void TapToStart()
     {
         HideStartScreen();
-        //startGame
+        toStart = true;
     }
 }

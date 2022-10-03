@@ -28,27 +28,27 @@ public class Enemy : MonoBehaviour
     }
     private void Update()
     {
-        if (SnakeEnter)
-        {
-            del();
-        }
+        //if (SnakeEnter)
+        //{
+        //    del();
+        //}
     }
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.TryGetComponent<SnakeController>(out SnakeController snake))
-        {
-            Snake = snake;
-            SnakeEnter = true;
-        }
-    }
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    if (collision.gameObject.TryGetComponent<SnakeController>(out SnakeController snake))
+    //    {
+    //        Snake = snake;
+    //        SnakeEnter = true;
+    //    }
+    //}
 
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.TryGetComponent<SnakeController>(out SnakeController snake))
-        {
-            SnakeEnter = false;
-        }
-    }
+    //private void OnCollisionExit(Collision collision)
+    //{
+    //    if (collision.gameObject.TryGetComponent<SnakeController>(out SnakeController snake))
+    //    {
+    //        SnakeEnter = false;
+    //    }
+    //}
 
     private void del()
     {
@@ -56,16 +56,28 @@ public class Enemy : MonoBehaviour
         {
             timer = 1f;
             value--;
-            Snake.Enter();
+            //Snake.Enter();
             text.text = value.ToString();
             if (value < 1)
             {
                 Debug.Log(value);
                 Destroy(gameObject);
                 SnakeEnter = false;
-                Snake.Exit();
+               // Snake.Exit();
             }
         }
         timer -= Time.deltaTime;
+    }
+
+    public void EnterSnaske()
+    {
+        value--;
+        text.text = value.ToString();
+        if (value < 1)
+        {
+            Debug.Log(value);
+            Destroy(gameObject);
+            // Snake.Exit();
+        }
     }
 }

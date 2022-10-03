@@ -86,6 +86,11 @@ public class SnakeController : MonoBehaviour
         if (dot < 0.5) Debug.Log(dot);
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log(other.name);
+    }
+
     public void Enter()
     {
         SnakeSpeed = 0;
@@ -102,7 +107,7 @@ public class SnakeController : MonoBehaviour
 
     private void GameOver()
     {
-        Debug.Log(Length);
+        Debug.Log("gameOVER");
     }
 
     public void Exit()

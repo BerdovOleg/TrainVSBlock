@@ -15,10 +15,15 @@ public class CameraFollow : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         delta = StartPos + SnakePos.position;
         var a = new Vector3(transform.position.x,transform.position.y, delta.z);
-        transform.position =Vector3.MoveTowards(transform.position, a,  Camspeed * Time.deltaTime);
+        transform.position =Vector3.MoveTowards(transform.position, a,  Camspeed * Time.fixedDeltaTime);
+    }
+
+    private void Update()
+    {
+        
     }
 }

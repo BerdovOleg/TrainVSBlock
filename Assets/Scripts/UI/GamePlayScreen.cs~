@@ -29,6 +29,11 @@ public class GamePlayScreen : MonoBehaviour
         destroyBlockCount += value;
     }
 
+    public ProggresLevel(float progres)
+    {
+
+    }
+
     public void ShowGPScreen(int curLevel)
     {
         this.CurLevel.text = "" + curLevel;

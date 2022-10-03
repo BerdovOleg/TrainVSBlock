@@ -1403,7 +1403,7 @@ GameObject:
   - component: {fileID: 1378073106938379}
   - component: {fileID: 1378073106938378}
   m_Layer: 5
-  m_Name: Best_food_text
+  m_Name: Best_block_text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2449,9 +2449,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7950d6f6d2b1abd49a3ac698137718f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startScreed: {fileID: 1378072750287880}
+  startScreen: {fileID: 0}
   LevelText: {fileID: 1378073306433505}
-  BestFoodText: {fileID: 1378073106938378}
+  BestBlockText: {fileID: 1378073106938378}
+  toStart: 0
 --- !u!1 &1378073568230282
 GameObject:
   m_ObjectHideFlags: 0
@@ -3203,8 +3204,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4289243307
-  m_fontColor: {r: 0.6698113, g: 0.66033286, b: 0.66033286, a: 1}
+    rgba: 4285361536
+  m_fontColor: {r: 0.5, g: 0.4268868, b: 0.4268868, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
