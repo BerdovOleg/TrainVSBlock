@@ -30,10 +30,6 @@ public class Enemy : MonoBehaviour
         text = GetComponentInChildren<TextMeshProUGUI>();
         text.text = value.ToString();
     }
-    private void Update()
-    {
-        
-    }
 
     public void EnterSnaske()
     {

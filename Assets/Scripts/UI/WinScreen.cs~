@@ -9,7 +9,7 @@ public class WinScreen : MonoBehaviour
     [SerializeField] private TextMeshProUGUI CurLevel;
     private bool AdsShow;
     private bool nextLevel;
-    public bool loadNextLevel;
+    public bool LoadNextLevel;
 
         public void ShowWinScreen(int curLevel, bool ads)
     {
@@ -46,7 +46,7 @@ public class WinScreen : MonoBehaviour
     private void LoadNextLevel()
     {
         HideWinScreen();
-        loadNextLevel = true;
+        LoadNextLevel = true;
     }
 
 }

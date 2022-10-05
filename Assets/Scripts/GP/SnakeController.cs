@@ -28,10 +28,12 @@ public class SnakeController : MonoBehaviour
         SetText(Length);
     }
 
-    public void StartSnake() {
+    public void StartSnake(int lenght) {
+        Length = lenght;
         startSnake = true;
         _SnakeTail.AddTail(Length);
-        SnakeSpeed = 10;
+        SnakeSpeed = 15f;
+        SetText(Length);
     }
 
     private void SetText(int i)
@@ -87,27 +89,20 @@ public class SnakeController : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionStay(Collision collision)
     {
-        if (other.TryGetComponent<Enemy>(out Enemy _enemy))
+        if (collision.gameObject.TryGetComponent<Enemy>(out Enemy _enemy))
         {
+            //if (collision.contacts[0].point.normalized.sqrMagnitude<1) return;
             enemy = _enemy;
-        }
-
-        if (other.TryGetComponent<Finish>(out Finish _finish))
-        {
-            finish = _finish;
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
-        if (enemy != null)
+        if (other.TryGetComponent<Finish>(out Finish _finish))
         {
-            if (enemy.transform.position.magnitude > transform.position.magnitude)
-            {
-                enemy = null;
-            }
+            finish = _finish;
         }
     }
 

@@ -2405,6 +2405,7 @@ MonoBehaviour:
   BestFood: {fileID: 1378073376645702}
   CurrentLive: {fileID: 1378073006644416}
   Timer: {fileID: 1378073156862970}
+  restart: 0
 --- !u!114 &1378073432962062
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2437,6 +2438,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   winScreen: {fileID: 1378073977755951}
   CurLevel: {fileID: 1378072847974980}
+  loadNextLevel: 0
 --- !u!114 &1378073432962060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3386,13 +3388,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1378073432962068}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 1378073432962063}
+        m_TargetAssemblyTypeName: WinScreen, Assembly-CSharp
+        m_MethodName: NextLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

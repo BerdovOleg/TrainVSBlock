@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private WinScreen winScreen;
     [SerializeField] private Obstacles obstacles;
     private Finish finish;
+    [SerializeField] private LevelManager levelManager;
 
     float delay = .9f;
     float timer = .9f;
@@ -26,7 +27,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject explosion;
 
     //saveSystem
-    private int Level = 1;
+    [SerializeField] private GameData gameData;
+    private int Level;
+    private int LenghtSnake;
     private int BestBlock;
     private int curDeadBlock;
 
@@ -36,7 +39,21 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //loadSaveData();
+        //Save system
+        gameData= GameObject.FindGameObjectWithTag("GameData").GetComponent<GameData>();
+        if (gameData.GetLengtSnake() > 0)  { LenghtSnake = gameData.GetLengtSnake(); }
+        else {
+            LenghtSnake = 4;
+            gameData.Live = 5;
+        }
+        BestBlock = gameData.GetSaveDestroyBlock();
+        //LevelSystem
+        levelManager = GetComponent<LevelManager>();
+        var a = levelManager.GetidLevel();
+        if (a == 0) BestBlock = 0;  
+        Level = a + 1;
+        curDeadBlock = 0;
+        //StartGame
         startScreen.ShowStartScreen(Level, BestBlock);
         finish = obstacles.GetComponentInChildren<Finish>();
         distance = Vector3.Distance(snake.transform.position, finish.transform.position);
@@ -44,7 +61,7 @@ public class GameManager : MonoBehaviour
 
     private void StartSession()
     {
-        snake.StartSnake();
+        snake.StartSnake(LenghtSnake);
         gamePlayScreen.ShowGPScreen(Level);
         musicAudio.clip = clips[0];
         musicAudio.Play();
@@ -56,7 +73,10 @@ public class GameManager : MonoBehaviour
         ProgressLevel();
         GamePlayState();
         MainLogic();
-
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            levelManager.LoadNextScene();
+        }
     }
 
     private void MainLogic()
@@ -69,7 +89,7 @@ public class GameManager : MonoBehaviour
             {
                 effectAudio.clip = clips[1];
                 effectAudio.Play();
-                if (snake.Length >= 1)//collision block
+                if (snake.Length > 1)//collision block
                 {
                     curDeadBlock++;
                     enemy.EnterSnaske();
@@ -78,13 +98,16 @@ public class GameManager : MonoBehaviour
                     Destroy(go, 2f);
                     timer = 1f;
                     Debug.Log("Touch Bloc");
+                    snake.enemy = null;
+                    enemy = null;
+                    gameData.SaveDestroyBlock(curDeadBlock);
                 }
-                else if(snake.Length<1 & snake.gameObject.activeSelf)//lose level
+                else if(snake.Length<=1 & snake.gameObject.activeSelf)//lose level
                 {
                     var go = Instantiate(explosion, snake.transform.position, Quaternion.identity);
                     Destroy(go, 2f);
                     snake.Destroy();
-                    restartScreen.ShowRestartScreen(BestBlock, curDeadBlock, Level);
+                    restartScreen.ShowRestartScreen(BestBlock, curDeadBlock,gameData.Live);
                     gamePlayScreen.HideGPtScreen();
                     snake.StopSnake();
                     print("Game Lose");
@@ -96,6 +119,7 @@ public class GameManager : MonoBehaviour
         {
             //snake.StopSnake();
             winScreen.ShowWinScreen(Level, false);
+            gameData.SaveLengtSnake(snake.Length);
         }
     }
 
@@ -106,6 +130,22 @@ public class GameManager : MonoBehaviour
             StartSession();
             startScreen.toStart = false;
             gamePlayScreen.ShowGPScreen(Level);
+        }
+
+        if (restartScreen.restart)
+        {
+            if (gameData.Live <= 0)
+            {
+                gameData.Live--;
+                levelManager.ReloadThisLevel();
+            }
+            gameData.SaveLengtSnake(4);
+            levelManager.ReloadThisLevel();
+        }
+
+        if (winScreen.loadNextLevel)
+        {
+            levelManager.LoadNextScene();
         }
     }
 
