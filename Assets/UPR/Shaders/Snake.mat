@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs_Block
-  m_Shader: {fileID: -6465566751694194690, guid: fd107cee604704b5da22ade4872afeeb, type: 3}
+  m_Name: Snake
+  m_Shader: {fileID: -6465566751694194690, guid: eefbcfee1574b40d19a4acab0986b2a1, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 2
@@ -34,17 +34,13 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Float: 0
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Speed: 10
-    - _TimeGradient: 1
-    - _alpha: 0.25
+    - _power: 0.13
     m_Colors:
-    - _Collor: {r: 1, g: 0, b: 0, a: 0}
-    - _Color: {r: 0.4269313, g: 0.6002581, b: 0.7735849, a: 1}
+    - _Color: {r: 0.9341288, g: 0, b: 1, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &2221178918710675156
+--- !u!114 &8547328664048276354
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
